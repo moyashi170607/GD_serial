@@ -9,8 +9,6 @@
 #include "pico/stdlib.h"
 
 
-
-
 enum RECEIVED_MODE
 {
     NONE,
@@ -20,6 +18,36 @@ enum RECEIVED_MODE
 };
 
 RECEIVED_MODE _receive_mode;
+
+std::string GetReceiveMode(){
+    std::string str;
+
+    switch (_receive_mode)
+    {
+    case NONE:
+        str = "MODE:NONE";
+        break;
+
+    case SET_OUT:
+        str = "MODE:SET_OUT";
+        break;
+
+    case SET_IN:
+        str = "MODE:SET_IN";
+        break;
+
+    case PUT:
+        str = "MODE:PUT";
+        break;
+
+    default:
+        str = "MODE:ERROR";
+        break;
+    }
+
+
+    return str;
+}
 
 void InitGpio(uint pin)
 {
@@ -58,7 +86,7 @@ void PutGpio(std::string message)
         i++;
     }
 
-    std::cout << "mp0:" << message_parsed[0] << "mp1:" << message_parsed[1] << std::endl;
+    std::cout << "pin_number:" << message_parsed[0] << "  put:" << message_parsed[1] << std::endl;
 
     gpio_put(message_parsed[0],message_parsed[1]);
 
@@ -72,6 +100,10 @@ void CheckMessage(std::string message)
         {
             stdio_init_all();
             std::cout << "reset" << std::endl;
+        }
+        else if(message == "@GET_MODE")
+        {
+            std::cout << GetReceiveMode() << std::endl;
         }
         else if (message=="@SET_OUT")
         {

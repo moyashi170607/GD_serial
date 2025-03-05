@@ -1,4 +1,4 @@
-# GD_Sirial
+# GD_Serial
 
 このプロジェクトは、Godot.mono(C#対応版)とpicoSDK間をシリアル通信でつなぐためのものです。現状、Godot→RP2040に対応しています
 
